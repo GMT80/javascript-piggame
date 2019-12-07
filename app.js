@@ -10,6 +10,7 @@ GAME RULES:
 */
 
 var scores, roundScore, activePlayer, dice;
+var diceDOM = document.querySelector('.dice');
 
 scores = [0, 0];
 roundScore = 0;
@@ -24,11 +25,10 @@ document.getElementById('current-0').textContent = 0;
 document.getElementById('current-1').textContent = 0;
 
 
-document.querySelector('.btn-roll').addEventListener('click', function () {
+document.querySelector('.btn-roll').addEventListener('click', function() {
     // Random Number
     var dice = Math.floor(Math.random() * 6) + 1;
     // Display the result
-    var diceDOM = document.querySelector('.dice');
     diceDOM.style.display = 'block';
     diceDOM.src = 'asset/dice-' + dice + '.png';
     // Update score but IF the rolled number was NOT a 1
@@ -38,17 +38,39 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
         document.querySelector('#current-' + activePlayer).textContent = roundScore;
     } else {
         // Next player
-        activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-        roundScore = 0;
-
-        document.getElementById('current-0').textContent = '0';
-        document.getElementById('current-1').textContent = '0';
-
-        document.querySelector('.player-0-panel').classList.toggle('active');
-        document.querySelector('.player-1-panel').classList.toggle('active');
-
-        diceDOM.style.display = 'none';
-
+        nextPlayer();
     }
 
 });
+
+document.querySelector('.btn-hold').addEventListener('click', function() {
+    // Add CUURENT score to GLOBAL score
+    scores[activePlayer] += roundScore;
+    // Update UI
+    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+    // Check if player WIN
+    if (scores[activePlayer] >= 20) {
+        document.querySelector('#name-' + activePlayer).textContent = 'Winner!';  
+        diceDOM.style.display = 'none';
+        document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner'); 
+        document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');  
+ 
+    } else {
+        // Next Player    
+        nextPlayer();
+    }
+});
+
+function nextPlayer() {  
+    // Next player
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    roundScore = 0;
+
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
+
+    document.querySelector('.player-0-panel').classList.toggle('active');
+    document.querySelector('.player-1-panel').classList.toggle('active');
+    
+    diceDOM.style.display = 'none';
+ }
