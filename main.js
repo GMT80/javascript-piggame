@@ -13,7 +13,6 @@ GAME RULES:
 var scores, roundScore, activePlayer, dice, x;
 var gamePlaying = true;
 
-
 init();
 
 document.querySelector('.btn-roll').addEventListener('click', function () {
@@ -21,6 +20,7 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
         // Random Number
         var dice1 = Math.floor(Math.random() * 6) + 1;
         var dice2 = Math.floor(Math.random() * 6) + 1;
+
         // Display the result
         document.querySelector('#dice-1').style.display = 'block';
         document.querySelector('#dice-2').style.display = 'block';
@@ -77,7 +77,6 @@ function init() {
     scores = [0, 0];
     roundScore = 0;
     activePlayer = 0;
-
 
     // Hide dice 
     document.querySelector('#dice-1').style.display = 'none';
